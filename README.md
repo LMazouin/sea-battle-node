@@ -1,1 +1,1 @@
-# Terminal Sea Battle Game
+# Sea Battle Game for Terminals

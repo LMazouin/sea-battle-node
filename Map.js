@@ -571,9 +571,9 @@ const createMap = (height = 10, width = 10) => {
       //);
 
       // reduce the number of samples to save computation time
-      if (maxNumberOfSamples < numberOfSamples) {
-        numberOfSamples = maxNumberOfSamples;
-      }
+      // if (maxNumberOfSamples < numberOfSamples) {
+      //   numberOfSamples = maxNumberOfSamples;
+      // }
 
       // pick the ship placements randomly and superpose them
       // to obtain a reasonable amount of configurations

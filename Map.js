@@ -357,13 +357,22 @@ const createMap = (height = 10, width = 10) => {
     isSunk(ship) {
       for (const cell of this.cells) {
         const { i, j } = cell;
-        for (const orientation of ORIENTATIONS) {
-          ship.orientation = orientation;
+        if (ship.length === 1) {
           if (this.checkIfSunk(i, j, ship)) {
             console.log(
               `SHIP OF LENGTH ${ship.length} AND ORIENTATION ${ship.orientation} IS SUNK!`
             );
             return true;
+          }
+        } else {
+          for (const orientation of ORIENTATIONS) {
+            ship.orientation = orientation;
+            if (this.checkIfSunk(i, j, ship)) {
+              console.log(
+                `SHIP OF LENGTH ${ship.length} AND ORIENTATION ${ship.orientation} IS SUNK!`
+              );
+              return true;
+            }
           }
         }
       }
@@ -526,7 +535,7 @@ const createMap = (height = 10, width = 10) => {
         } else {
           validPlacements = placements;
         }
-        // console.log(ship.length, placements.length);
+        console.log(ship.length, placements.length);
         shipPlacements.push(validPlacements);
       }
 
@@ -541,9 +550,9 @@ const createMap = (height = 10, width = 10) => {
       //);
 
       // reduce the number of samples to save computation time
-      if (maxNumberOfSamples < numberOfSamples) {
-        numberOfSamples = maxNumberOfSamples;
-      }
+      // if (maxNumberOfSamples < numberOfSamples) {
+      //   numberOfSamples = maxNumberOfSamples;
+      // }
 
       // pick the ship placements randomly and superpose them
       // to obtain a reasonable amount of configurations

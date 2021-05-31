@@ -107,6 +107,18 @@ while (turn < mapA.cells.length) {
     // console.clear();
     console.log("ERROR!");
   }
+
+  // console.log(mapB.hitPositions.length);
+  if (mapB.hitPositions.length === 15) {
+    console.log("YOU WON!");
+    break;
+  }
+
+  console.clear();
+  mapA.update(false);
+  mapB.update(true);
+  mapA.print(mapB);
+
   const configurations = mapA.sampleConfigurations(shipsA, 10000);
 
   if (shipsA.length === 0) {
@@ -116,24 +128,16 @@ while (turn < mapA.cells.length) {
     console.log("AI PLAYER WINS!");
     break;
   }
-  // console.log(mapB.hitPositions.length);
-  if (mapB.hitPositions.length === 15) {
-    console.log("YOU WON!");
-    break;
-  }
 
   const [indexMaxProbability, probabilityMatrix] =
     mapA.createProbabilityMatrix(configurations);
 
   randomIndex = indexMaxProbability;
 
-  // mapA.printProbabilityMatrix(probabilityMatrix, HEIGHT, WIDTH);
+  mapA.printProbabilityMatrix(probabilityMatrix, HEIGHT, WIDTH);
 
-  // prompt("CONTINUE?");
-
+  prompt("CONTINUE?");
   console.clear();
-  mapA.update(false);
-  mapB.update(true);
   mapA.print(mapB);
 
   turn++;

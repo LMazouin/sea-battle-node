@@ -79,7 +79,6 @@ while (turn < mapA.cells.length) {
     console.clear();
     mapB.cells[index].type = playerAction;
     mapA.print(mapB);
-    turn++;
   } else if (!status && index === -1) {
     console.clear();
     mapA.print(mapB);
@@ -104,7 +103,6 @@ while (turn < mapA.cells.length) {
     console.clear();
     mapA.cells[randomIndex].type = AIAction;
     mapA.print(mapB);
-    turn++;
   } else {
     // console.clear();
     console.log("ERROR!");
@@ -137,4 +135,6 @@ while (turn < mapA.cells.length) {
   mapA.update(false);
   mapB.update(true);
   mapA.print(mapB);
+
+  turn++;
 }

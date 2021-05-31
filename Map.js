@@ -554,7 +554,7 @@ const createMap = (height = 10, width = 10) => {
         } else {
           validPlacements = placements;
         }
-        console.log(ship.length, placements.length);
+        //    console.log(ship.length, placements.length);
         shipPlacements.push(validPlacements);
       }
 

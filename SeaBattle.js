@@ -136,9 +136,12 @@ while (turn < mapA.cells.length) {
 
   mapA.printProbabilityMatrix(probabilityMatrix, HEIGHT, WIDTH);
 
-  prompt("CONTINUE?");
-  console.clear();
-  mapA.print(mapB);
+  // prompt("CONTINUE?");
+  // console.clear();
+  // mapA.print(mapB);
+
+  mapA.update(false);
+  mapB.update(true);
 
   turn++;
 }

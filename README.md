@@ -4,7 +4,7 @@
 
 ```
 git clone https://github.com/LMazouin/sea-battle-node.git sea-battle-node
-cd sea-battle-node`
+cd sea-battle-node
 npm install
 ```
 

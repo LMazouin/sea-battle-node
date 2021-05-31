@@ -134,7 +134,7 @@ while (turn < mapA.cells.length) {
 
   randomIndex = indexMaxProbability;
 
-  mapA.printProbabilityMatrix(probabilityMatrix, HEIGHT, WIDTH);
+  // mapA.printProbabilityMatrix(probabilityMatrix, HEIGHT, WIDTH);
 
   // prompt("CONTINUE?");
   // console.clear();

@@ -14,7 +14,7 @@ const BATTLESHIP = 5;
 
 console.clear();
 
-const SHIPS = [FRIGATE, DESTROYER, DESTROYER, CRUISER, BATTLESHIP];
+const SHIPS = [SUBMARINE, FRIGATE, DESTROYER, CRUISER, BATTLESHIP];
 
 const mapA = Map.createMap(HEIGHT, WIDTH);
 const mapB = Map.createMap(HEIGHT, WIDTH);
@@ -118,7 +118,8 @@ while (turn < mapA.cells.length) {
     console.log("AI PLAYER WINS!");
     break;
   }
-  if (mapB.hitPositions.length === 17) {
+  // console.log(mapB.hitPositions.length);
+  if (mapB.hitPositions.length === 15) {
     console.log("YOU WON!");
     break;
   }

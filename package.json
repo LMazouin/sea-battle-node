@@ -9,6 +9,6 @@
     "prompt-sync": "^4.2.0"
   },
   "scripts": {
-    "sea-battle": "node ./SeaBattle2.js"
+    "sea-battle": "node ./SeaBattle.js"
   }
 }

@@ -855,7 +855,7 @@ const createMap = (height = 10, width = 10) => {
       console.log(message);
       const input = prompt("COORDINATES AND ORIENTATION = ", defaultInput);
       const match = input.match(
-        /(?<i>[0-9]*)\s*(?<j>[A-Z]*)\s+(?<orientation>[HV])/
+        /(?<i>[0-9]*)\s*(?<j>[a-jA-J])\s+(?<orientation>[HV])/
       );
       if (!match) {
         return [false, null];
@@ -894,7 +894,7 @@ const createMap = (height = 10, width = 10) => {
       )}\n\n`;
       console.log(message);
       const input = prompt("COORDINATES = ", defaultInput);
-      const match = input.match(/(?<i>[0-9]*)\s*(?<j>[A-Z]*)/);
+      const match = input.match(/(?<i>[0-9]*)\s*(?<j>[a-jA-J])/);
       if (!match) {
         return [false, -1, ""];
       }

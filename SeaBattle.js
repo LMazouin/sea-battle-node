@@ -54,8 +54,6 @@ while (count < SHIPS.length) {
   }
 }
 
-// const shipsA = mapA.placeShipsRandomly(SHIPS);
-
 const shipsB = mapB.placeShipsRandomly(SHIPS);
 
 mapA.update(false);
@@ -65,6 +63,7 @@ console.clear();
 mapA.print(mapB);
 
 const choicesShots = Random.getChoices(mapB.height, mapB.width);
+const choicesShotsAI = Random.getChoices(mapA.height, mapA.width);
 
 let randomIndex = Random.getRandomNumber(0, mapA.cells.length);
 
@@ -79,7 +78,7 @@ while (turn < mapA.cells.length) {
     console.clear();
     mapB.cells[index].type = playerAction;
     mapA.print(mapB);
-  } else if (!status && index === -1) {
+  } else if (!playerStatus && index === -1) {
     console.clear();
     mapA.print(mapB);
     console.log(
@@ -103,12 +102,14 @@ while (turn < mapA.cells.length) {
     console.clear();
     mapA.cells[randomIndex].type = AIAction;
     mapA.print(mapB);
+    choicesShotsAI.splice(randomIndex, 1);
   } else {
-    // console.clear();
+    console.clear();
     console.log("ERROR!");
+    console.log(configurations);
+    break;
   }
 
-  // console.log(mapB.hitPositions.length);
   if (mapB.hitPositions.length === 15) {
     console.log("YOU WON!");
     break;

@@ -255,7 +255,6 @@ const createMap = (height = 10, width = 10) => {
         }
 
         if (count < ship.length) {
-          // console.log(count);
           return false;
         }
       }
@@ -277,7 +276,6 @@ const createMap = (height = 10, width = 10) => {
         }
 
         if (count < ship.length) {
-          // console.log(count);
           return false;
         }
       }
@@ -309,7 +307,6 @@ const createMap = (height = 10, width = 10) => {
         }
 
         if (count < ship.length) {
-          console.log(count);
           return false;
         }
 
@@ -346,7 +343,6 @@ const createMap = (height = 10, width = 10) => {
         }
 
         if (count < ship.length) {
-          console.log(count);
           return false;
         }
 
@@ -378,9 +374,7 @@ const createMap = (height = 10, width = 10) => {
         const { i, j } = cell;
         if (ship.length === 1) {
           if (this.checkIfSunk1(i, j, ship)) {
-            console.log(
-              `SHIP OF LENGTH ${ship.length} AND ORIENTATION ${ship.orientation} IS SUNK!`
-            );
+            console.log(`SHIP OF LENGTH ${ship.length} IS SUNK!`);
             return true;
           }
         } else {
@@ -554,10 +548,10 @@ const createMap = (height = 10, width = 10) => {
         } else {
           validPlacements = placements;
         }
-        //    console.log(ship.length, placements.length);
         shipPlacements.push(validPlacements);
       }
 
+      // under development
       // calculate the upper bound of possible confiurations
       let maxNumberOfSamples = 1;
       shipPlacements.forEach((placements) => {
@@ -565,11 +559,6 @@ const createMap = (height = 10, width = 10) => {
           maxNumberOfSamples *= placements.length;
         }
       });
-      // console.log(
-      //  "UPPER BOUND OF POSSIBLE CONFIGURATIONS: ",
-      //  maxNumberOfSamples
-      //);
-
       // reduce the number of samples to save computation time
       // if (maxNumberOfSamples < numberOfSamples) {
       //   numberOfSamples = maxNumberOfSamples;
@@ -581,7 +570,6 @@ const createMap = (height = 10, width = 10) => {
       let status = true;
       let n = 0;
       while (n < numberOfSamples) {
-        // console.log(n);
         const configuration = [];
         // randomize the order of placement
         const randomPlacements = Random.shuffleList(shipPlacements);

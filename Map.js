@@ -167,7 +167,74 @@ const createMap = (height = 10, width = 10) => {
      * @param {object} - ship: ship object
      * @returns {boolean}
      */
-    checkIfSunk(startI, startJ, ship) {
+
+    checkIfSunk1(startI, startJ, ship) {
+      // special case when is ship has length = 1
+      const sunkPositions = [];
+      const i = startI;
+      const j = startJ;
+      if (ship.length === 1 && this.maxLength !== 1) {
+        if (j - 1 >= 0) {
+          const startIndex = this.width * i + j - 1;
+          if (this.cells[startIndex].type !== MISS) {
+            return false;
+          }
+        }
+
+        if (j + 1 < this.width) {
+          const endIndex = this.width * i + j + 1;
+          if (this.cells[endIndex].type !== MISS) {
+            return false;
+          }
+        }
+
+        if (i - 1 >= 0) {
+          const startIndex = this.width * (i - 1) + j;
+          if (this.cells[startIndex].type !== MISS) {
+            return false;
+          }
+        }
+
+        if (i + 1 < this.height) {
+          const endIndex = this.width * (i + 1) + j;
+          if (this.cells[endIndex].type !== MISS) {
+            return false;
+          }
+        }
+
+        const index = this.width * i + j;
+        if (j >= this.width || i >= this.height) {
+          return false;
+        }
+        if (this.cells[index].type !== HIT) {
+          return false;
+        } else if (this.cells[index].type === HIT) {
+          sunkPositions.push(index);
+        }
+      }
+
+      if (this.maxLength === 1) {
+        const index = this.width * i + j;
+        if (j >= this.width || i >= this.height) {
+          return false;
+        }
+        if (this.cells[index].type !== HIT) {
+          return false;
+        } else if (this.cells[index].type === HIT) {
+          sunkPositions.push(index);
+        }
+      }
+      // store the positions of the sunk ship
+      // remove the corresponding hit positions
+      sunkPositions.forEach((position) => {
+        const hitIndex = this.hitPositions.indexOf(position);
+        const hitPosition = this.hitPositions.splice(hitIndex, 1)[0];
+        this.sunkPositions.push(hitPosition);
+      });
+      return true;
+    },
+
+    checkIfSunk2(startI, startJ, ship) {
       const sunkPositions = [];
 
       // special case when the ship has length = maxLength
@@ -217,8 +284,7 @@ const createMap = (height = 10, width = 10) => {
       // if ship is horizontal
       else if (
         ship.orientation === HORIZONTAL &&
-        ship.length < this.maxLength &&
-        ship.length > 1
+        ship.length < this.maxLength
       ) {
         const i = startI;
         if (startJ - 1 >= 0) {
@@ -256,11 +322,7 @@ const createMap = (height = 10, width = 10) => {
       }
 
       // if ship is vertical
-      else if (
-        ship.orientation === VERTICAL &&
-        ship.length < this.maxLength &&
-        ship.length > 1
-      ) {
+      else if (ship.orientation === VERTICAL && ship.length < this.maxLength) {
         const j = startJ;
         if (startI - 1 >= 0) {
           const startIndex = this.width * (startI - 1) + j;
@@ -296,49 +358,6 @@ const createMap = (height = 10, width = 10) => {
         }
       }
 
-      // special case when is ship has length = 1
-      else if (ship.length === 1) {
-        const i = startI;
-        const j = startJ;
-        if (j - 1 >= 0) {
-          const startIndex = this.width * i + j - 1;
-          if (this.cells[startIndex].type !== MISS) {
-            return false;
-          }
-        }
-
-        if (j + 1 < this.width) {
-          const endIndex = this.width * i + j + 1;
-          if (this.cells[endIndex].type !== MISS) {
-            return false;
-          }
-        }
-
-        if (i - 1 >= 0) {
-          const startIndex = this.width * (i - 1) + j;
-          if (this.cells[startIndex].type !== MISS) {
-            return false;
-          }
-        }
-
-        if (i + 1 < this.height) {
-          const endIndex = this.width * (i + 1) + j;
-          if (this.cells[endIndex].type !== MISS) {
-            return false;
-          }
-        }
-
-        const index = this.width * i + j;
-        if (j >= this.width || i >= this.height) {
-          return false;
-        }
-        if (this.cells[index].type !== HIT) {
-          return false;
-        } else if (this.cells[index].type === HIT) {
-          sunkPositions.push(index);
-        }
-      }
-
       // store the positions of the sunk ship
       // remove the corresponding hit positions
       sunkPositions.forEach((position) => {
@@ -358,7 +377,7 @@ const createMap = (height = 10, width = 10) => {
       for (const cell of this.cells) {
         const { i, j } = cell;
         if (ship.length === 1) {
-          if (this.checkIfSunk(i, j, ship)) {
+          if (this.checkIfSunk1(i, j, ship)) {
             console.log(
               `SHIP OF LENGTH ${ship.length} AND ORIENTATION ${ship.orientation} IS SUNK!`
             );
@@ -367,7 +386,7 @@ const createMap = (height = 10, width = 10) => {
         } else {
           for (const orientation of ORIENTATIONS) {
             ship.orientation = orientation;
-            if (this.checkIfSunk(i, j, ship)) {
+            if (this.checkIfSunk2(i, j, ship)) {
               console.log(
                 `SHIP OF LENGTH ${ship.length} AND ORIENTATION ${ship.orientation} IS SUNK!`
               );
@@ -542,7 +561,9 @@ const createMap = (height = 10, width = 10) => {
       // calculate the upper bound of possible confiurations
       let maxNumberOfSamples = 1;
       shipPlacements.forEach((placements) => {
-        maxNumberOfSamples *= placements.length;
+        if (placements.length > 0) {
+          maxNumberOfSamples *= placements.length;
+        }
       });
       // console.log(
       //  "UPPER BOUND OF POSSIBLE CONFIGURATIONS: ",
@@ -550,9 +571,9 @@ const createMap = (height = 10, width = 10) => {
       //);
 
       // reduce the number of samples to save computation time
-      // if (maxNumberOfSamples < numberOfSamples) {
-      //   numberOfSamples = maxNumberOfSamples;
-      // }
+      if (maxNumberOfSamples < numberOfSamples) {
+        numberOfSamples = maxNumberOfSamples;
+      }
 
       // pick the ship placements randomly and superpose them
       // to obtain a reasonable amount of configurations
